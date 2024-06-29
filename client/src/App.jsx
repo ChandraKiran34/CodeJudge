@@ -6,6 +6,7 @@ import ProblemPage from './Pages/ProblemPage';
 import BookmarkedPage from './Pages/BookmarkedPage';
 import ProfilePage from './Pages/ProfilePage';
 import RegisterPage from './Pages/RegisterPage';
+import LoginPage from './Pages/LoginPage';
 
 // Mock data
 const problems = [
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/bookmarks" element={<BookmarkedPage user={user} problems={problems} />} />
         <Route path="/profile" element={<ProfilePage user={user} />} />
         <Route path="/register" element={<RegisterPage  />} />
+        <Route path="/login" element = {<LoginPage />} />
       </Routes>
     </Router>
   );
