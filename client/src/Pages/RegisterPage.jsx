@@ -74,8 +74,8 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen dark  bg-pink-300">
-      <h2 className="text-4xl text-[#444] font-bold text- mb-5 flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center h-screen dark  bg-slate-600">
+      <h2 className="text-4xl text-[#eee] font-bold text- mb-5 flex items-center justify-center">
         <MdPerson className="mr-[0.3rem] text-4xl" /> Register
       </h2>
       <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-md p-8">

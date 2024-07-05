@@ -1,8 +1,31 @@
-# React + Vite
+### Instructions for good working
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### clone the repository
 
-Currently, two official plugins are available:
+```
+    https://github.com/ChandraKiran34/CodeJudge.git
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```
+### go to the directory 
+```
+    cd client
+```
+
+### run the following commnds
+
+```
+    npm i
+
+```
+
+### install the dependencies by running command
+
+```
+    npm i react-hot-toast react-redux @reduxjs/toolkit react-router-dom daisyui react-chart2-js chart.js
+```
+
+### run the project
+
+```
+    npm run dev
+```

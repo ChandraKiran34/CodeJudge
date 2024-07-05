@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './Components/Navbar';
 import HomePage from './Pages/HomePage';
@@ -7,6 +7,9 @@ import BookmarkedPage from './Pages/BookmarkedPage';
 import ProfilePage from './Pages/ProfilePage';
 import RegisterPage from './Pages/RegisterPage';
 import LoginPage from './Pages/LoginPage';
+import { toast } from 'react-hot-toast';
+
+
 
 // Mock data
 const problems = [
@@ -23,8 +26,13 @@ const user = {
 };
 
 const App = () => {
+
+  // useEffect(()=>{
+  //   toast.error("success");
+  // },[])
+
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage problems={problems} />} />
@@ -34,7 +42,8 @@ const App = () => {
         <Route path="/register" element={<RegisterPage  />} />
         <Route path="/login" element = {<LoginPage />} />
       </Routes>
-    </Router>
+    </>
+
   );
 };
 
