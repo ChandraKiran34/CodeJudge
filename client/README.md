@@ -11,7 +11,7 @@
     cd client
 ```
 
-### run the following commnds
+### run the following commands
 
 ```
     npm i

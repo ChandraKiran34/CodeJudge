@@ -8,6 +8,7 @@ import ProfilePage from './Pages/ProfilePage';
 import RegisterPage from './Pages/RegisterPage';
 import LoginPage from './Pages/LoginPage';
 import { toast } from 'react-hot-toast';
+import Footer from './Components/Footer';
 
 
 
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage  />} />
         <Route path="/login" element = {<LoginPage />} />
       </Routes>
+      <Footer />
     </>
 
   );
