@@ -5,8 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      'mono': ['Ubuntu Mono', 'monospace'],
+    },
   },
   plugins: [require("daisyui")],
 }
+
 

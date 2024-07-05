@@ -9,6 +9,9 @@ import RegisterPage from './Pages/RegisterPage';
 import LoginPage from './Pages/LoginPage';
 import { toast } from 'react-hot-toast';
 import Footer from './Components/Footer';
+import ProblemList from './Components/ProblemList';
+
+
 
 
 
@@ -35,9 +38,10 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage problems={problems} />} />
-        <Route path="/problem/:code" element={<ProblemPage problems={problems} />} />
+      <Routes >
+        <Route path="/" element={<HomePage />} />
+        {/* <Route path="/problems" element={<ProblemPage problems={problems} />} /> */}
+        <Route path="/problems" element={<ProblemList/>} />
         <Route path="/bookmarks" element={<BookmarkedPage user={user} problems={problems} />} />
         <Route path="/profile" element={<ProfilePage user={user} />} />
         <Route path="/register" element={<RegisterPage  />} />
