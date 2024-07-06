@@ -2,7 +2,7 @@ import React from "react";
 
 const ProblemCard = ({ title, difficulty, tags, solveUrl,noOfPeopleSolved }) => {
   return (
-    <div className="ml-[13rem] mt-[1.5rem] mr-[7rem] bg-transparent shadow-md rounded px-4 py-6 flex justify-between border border-[#455A64] hover:bg-slate-800 items-center">
+    <div className="ml-[13rem] mt-[1.5rem] mr-[7rem] bg-transparent shadow-md rounded px-4 py-6 flex justify-between border border-[#455A64] cursor-pointer items-center">
       <div>
         <div className="text-lg font-bold text-white">{title}</div>
         <div className="flex flex-row gap-2 mb-4 mt-4">

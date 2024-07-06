@@ -31,8 +31,9 @@ const problems = [
 const ProblemList = () => {
   return (
     <div className="flex flex-col justify-center mb-4 font-mono">
+       <h2 className="text-2xl font-bold mb-4 flex justify-center items-center pt-[2rem]">Practice Problems</h2>
       {problems.map((problem) => (
-        <ProblemCard className="hover:bg-slate-800"
+        <ProblemCard className="cursor-pointer"
           key={problem.id}
           title={problem.title}
           difficulty={problem.difficulty}

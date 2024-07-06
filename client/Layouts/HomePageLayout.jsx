@@ -6,7 +6,7 @@ const HomePageLayout = ({children}) => {
   return (
     <div>
       <Navbar/>
-      {children}
+      <Outlet />
       <Footer />
     </div>
   )
