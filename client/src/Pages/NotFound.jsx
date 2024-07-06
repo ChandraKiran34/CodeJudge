@@ -11,7 +11,7 @@ const NotFound = () => {
       <div className='bg-black text-white absolute px-2 text-sm rounded rotate-12'>
         Page not found ...
       </div>
-      <button className='mt-5'>
+      <button className='mt-6'>
         <a onClick={() => naviagate(-1)} className="relative inline-block text-sm font-medium  text-[#FF6A3D] active:text-blue-500 focus:outline-none" >
             <span  className='relative block px-8 py-3 bg-[#]1a2238] border border-current'>Go back</span>
         </a>
