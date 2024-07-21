@@ -5,6 +5,7 @@ import cloudinary from "cloudinary";
 import fs from "fs/promises";
 import sendEmail from "../Utils/SendEmail.js";
 import crypto from "crypto";
+
 dotenv.config();
 
 const CookieOptions = {
@@ -98,13 +99,15 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
+    console.log(password);
+    
     if (!email || !password)
-      return next(new AppError("Please fill all the fields", 400));
+    return next(new AppError("Please fill all the fields", 400));
+  
+  const userAccount = await User.findOne({ email }).select("+password");
+  // console.log(await userAccount.comparePassword(password));
 
-    const userAccount = await User.findOne({ email }).select("+password");
-
-    if (!userAccount || !userAccount.comparePassword(password)) {
+    if (!(userAccount && (await userAccount.comparePassword(password)))) {
       return next(new AppError(`Email or password do not  match`, 400));
     }
 
@@ -119,6 +122,7 @@ const login = async (req, res, next) => {
     });
   } catch (error) {
     console.error(error);
+    return next(new AppError(`${error.message}`, 400));
   }
 };
 
@@ -173,7 +177,7 @@ const forgotPassword = async (req, res, next) => {
   const message = `You can reset your password by clicking <a href=${resetPasswordUrl} target="_blank">Reset your password</a>\nIf the above link does not work for some reason then copy paste this link in new tab ${resetPasswordUrl}.\n If you have not requested this, kindly ignore.`;
   console.log(resetPasswordUrl);
   try {
-    // TODO : create sendEmail
+    // TODO : create sendEmail done now
     await sendEmail(email, subject, message);
 
     res.status(200).json({
@@ -288,7 +292,7 @@ const updateProfile = async (req, res, next) => {
     await user.save();
     res.status(200).json({
       success : true,
-      message : 'User details updated successfully'
+      message : 'User Details updated successfully'
     })
   }
   } catch (error) {
