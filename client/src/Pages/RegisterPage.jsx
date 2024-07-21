@@ -1,6 +1,18 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { MdPerson } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { createAccount } from "../../redux/Slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import Loading from "../Components/Loading";
+
 const RegisterPage = () => {
+  // localStorage
+
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
+  const navigate = useNavigate();
+
   const [inputData, setInputData] = useState({
     userName: "",
     email: "",
@@ -11,24 +23,24 @@ const RegisterPage = () => {
   });
   const [profilePicture, setProfilePicture] = useState(null);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
   const formData = new FormData();
 
-
   const handleFileChange = (event) => {
+    event.preventDefault();
     setFile(event.target.files[0]);
     const file = event.target.files[0];
+    // const fileReader = new fileReader();
+
     if (file) {
       setProfilePicture(URL.createObjectURL(file));
     }
   };
 
-  
-  
-  
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     console.log(inputData);
     formData.append("userName", inputData.userName);
     formData.append("email", inputData.email);
@@ -36,15 +48,16 @@ const RegisterPage = () => {
     formData.append("phone", inputData.phone);
     formData.append("github", inputData.github);
     formData.append("linkedin", inputData.linkedin);
-    formData.append('avatar', file);
+    formData.append("avatar", file);
     try {
-      const response = await fetch("http://localhost:8000/auth/register", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
+      const response = await dispatch(createAccount(formData));
+      const data = await response?.payload?.user;
       setMessage(data.message);
-      console.log(message);
+      // toast.success(message);
+      if (data) {
+        navigate("/");
+      }
+      // console.log(message);
       setInputData({
         userName: "",
         email: "",
@@ -54,9 +67,13 @@ const RegisterPage = () => {
         linkedin: "",
       });
       setProfilePicture(null);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
+      // navigate('/')
       setMessage("Registration not successful");
+      setLoading(false);
     }
   };
 
@@ -69,8 +86,8 @@ const RegisterPage = () => {
   };
 
   const customStyles = {
-    overflowY: 'auto',
-  height: '100vh'
+    overflowY: "auto",
+    height: "100vh",
   };
 
   return (
@@ -80,7 +97,11 @@ const RegisterPage = () => {
       </h2>
       <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-md p-8">
         {/* <label className="block text-gray-200 ">Profile Picture</label> */}
-        <form className="flex flex-col" onSubmit={handleSubmit} encType='multipart/form-data'>
+        <form
+          className="flex flex-col"
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
           <div className="flex items-center mb-4">
             <label
               htmlFor="profilePicture"
@@ -163,7 +184,7 @@ const RegisterPage = () => {
             className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold py-2 px-4 rounded-md mt-4 hover:bg-indigo-600 hover:to-blue-600 transition ease-in-out duration-150"
             type="submit"
           >
-            Register
+            {loading ? <Loading /> : "Register"}
           </button>
         </form>
       </div>

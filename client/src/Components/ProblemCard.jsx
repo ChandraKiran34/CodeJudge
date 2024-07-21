@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const ProblemCard = ({ title, difficulty, tags, solveUrl,noOfPeopleSolved }) => {
+const ProblemCard = ({ id, title, difficulty, tags, noOfPeopleSolved, to }) => {
   return (
     <div className="ml-[13rem] mt-[1.5rem] mr-[7rem] bg-transparent shadow-md rounded px-4 py-6 flex justify-between border border-[#455A64] cursor-pointer items-center">
       <div>
@@ -17,14 +18,14 @@ const ProblemCard = ({ title, difficulty, tags, solveUrl,noOfPeopleSolved }) => 
         </div>
       </div>
       <div className="flex flex-col">
-        <a
-          href={solveUrl}
+        <Link
+          to={to} // Use the id prop in the Link component
           className="border border-blue-500 hover:bg-blue-500 text-blue-500 hover:text-white font-light py-2 px-4 rounded"
         >
           Solve Problem
-        </a>
+        </Link>
         <div className="text-white flex justify-between p-2">
-          <p> {difficulty} </p> 
+          <p> {difficulty} </p>
           <p>|</p>
           <p>{noOfPeopleSolved}</p>
         </div>

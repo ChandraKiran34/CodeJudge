@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
-
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/Slices/authSlice";
+import toast from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch('http://localhost:8000/auth/login',{
-      method : 'POST',
-      headers: {
-        'content-type' : 'application/json'
-      },
-      body : JSON.stringify({email,password})
-    })
-    const data = await response.json();
-    
-    console.log(data);
+    if (!email || !password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+    const response = await dispatch(login({email,password}));
+    console.log(response);
+    if(response?.payload?.user)
+    {
+      navigate('/')
+    }
+    setEmail('');
+    setPassword('')
+  
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen ">
+    <div className="flex flex-col items-center justify-center pt-[7rem] pb-[9rem] ">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Login</h2>
         <form className="flex flex-col h-[15rem]" onSubmit={handleSubmit}>
@@ -39,7 +47,10 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <div className="flex items-center justify-between flex-wrap">
-            <label htmlFor="remember-me" className="text-sm text-gray-900 cursor-pointer">
+            <label
+              htmlFor="remember-me"
+              className="text-sm text-gray-900 cursor-pointer"
+            >
               <input
                 type="checkbox"
                 id="remember-me"
@@ -49,8 +60,22 @@ const LoginPage = () => {
               />
               Remember me
             </label>
-            <a href="#" className="text-sm text-blue-500 hover:underline mb-0.5">Forgot password?</a>
-            <p className="text-gray-900 mt-4"> Don't have an account? <a href="#" className="text-sm text-blue-500 -200 hover:underline mt-4">Signup</a></p>
+            <a
+              href="#"
+              className="text-sm text-blue-500 hover:underline mb-0.5"
+            >
+              Forgot password?
+            </a>
+            <p className="text-gray-900 mt-4">
+              {" "}
+              Don't have an account?{" "}
+              <a
+                href="#"
+                className="text-sm text-blue-500 -200 hover:underline mt-4"
+              >
+                Signup
+              </a>
+            </p>
           </div>
           <button
             type="submit"
