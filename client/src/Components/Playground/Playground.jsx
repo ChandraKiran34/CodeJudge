@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
 import PreferenceNav from "./PreferenceNav";
 import Split from "react-split";
 import CodeMirror from "@uiw/react-codemirror";
@@ -8,20 +9,24 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import toast from "react-hot-toast";
 import SmallLoading from "../SmallLoading.jsx";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Playground = () => {
+  const { id } = useParams();
   const [fontSize, setFontSize] = useState(16);
   const [theme, setTheme] = useState(vscodeDark);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState(`#include <iostream>
-  using namespace std;
-  
-  int main() {
-      cout << "Hello World!";
-      return 0;
-  }
+using namespace std;
+
+int main() {
+    cout << "Hello World!";
+    // fill the code here
+    return 0;
+}
   
   
   
@@ -32,6 +37,11 @@ const Playground = () => {
   `);
 
   const handleRun = async () => {
+    // if (!token) {
+    //   toast.error("You must be logged in to run the code");
+    //   return;
+    // }
+
     try {
       setLoading(true);
       const response = await fetch("http://localhost:8000/api/run", {
@@ -39,12 +49,20 @@ const Playground = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ language: "cpp", code }),
+        body: JSON.stringify({ language: "cpp", code, input }),
+        credentials: 'include'
       });
-      console.log("debugg");
       const data = await response.json();
+      console.log(data);
+
+      // Handle the response
       setOutput(data.output);
-      toast.success("Code executed successfully!");
+      if (data.success) {
+        toast.success(data?.message);
+      } else 
+      {
+        toast.error(data?.message);
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -53,9 +71,38 @@ const Playground = () => {
     }
   };
 
-  const handleSubmit = () => {
-    // Logic to handle the submit button click
-    console.log("Submit button clicked");
+  const handleSubmit = async () => {
+    if (!token) {
+      toast.error("You must be logged in to submit the code");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:8000/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Include the token in the headers
+        },
+        body: JSON.stringify({ language: "cpp", code, problemId: id }),
+      });
+      const data = await response.json();
+
+      // Handle the response
+      const allPassed = data.results.every((result) => result.passed);
+      if (allPassed) {
+        toast.success("All test cases passed successfully!");
+      } else {
+        toast.error("Some test cases failed.");
+      }
+
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error.message);
+      toast.error(error.message);
+    }
   };
 
   return (

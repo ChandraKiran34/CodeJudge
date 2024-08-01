@@ -5,6 +5,7 @@ const initialState = {
   isLoggedIn: localStorage.getItem("isLoggedIn") || false,
   role: localStorage.getItem("role") || "",
   data: JSON.parse(localStorage.getItem("data")) || {},
+  token : localStorage.getItem('token') || ""
 };
 
 export const createAccount = createAsyncThunk(
@@ -38,6 +39,7 @@ export const login = createAsyncThunk("/auth/login", async (data) => {
   });
   try {
     const response = await promise;
+    console.log(response, " response");
     return response.data;
   } catch (error) {
     console.log(error);
@@ -73,21 +75,25 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createAccount.fulfilled, (state, action) => {
-        localStorage.setItem("data", JSON.stringify(action?.payload?.data));
+        localStorage.setItem("data", JSON.stringify(action?.payload?.user));
         localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("role", action?.payload?.data?.user?.role);
+        localStorage.setItem("role", action?.payload?.user?.role);
+        localStorage.setItem("token", action?.payload?.token);
         state.isLoggedIn = true;
         state.role = action?.payload?.user?.role;
         state.data = action?.payload?.user;
+        state.token = action?.payload?.token;
       })
 
       .addCase(login.fulfilled, (state, action) => {
-        localStorage.setItem("data", JSON.stringify(action?.payload?.data));
+        localStorage.setItem("data", JSON.stringify(action?.payload?.user));
         localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("role", action?.payload?.data?.user?.role);
+        localStorage.setItem("role", action?.payload?.user?.role);
+        localStorage.setItem("token", action?.payload?.token);
         state.isLoggedIn = true;
         state.role = action?.payload?.user?.role;
         state.data = action?.payload?.user;
+        state.token = action?.payload?.token;
       })
 
       .addCase(logout.fulfilled, (state) => {
@@ -95,6 +101,7 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.role = "";
         state.data = {};
+        state.token = ""
       });
   },
 });

@@ -42,7 +42,7 @@ const ProblemDetails = () => {
   }, [id]);
 
   return (
-    <div className="bg-dark-layer-1">
+    <div className="bg-dark-layer-1 overflow-y-auto">
       {/* TAB */}
       <Tabs>
         <TabList className="flex h-11 w-full items-center pt-2 bg-dark-layer-2 text-white overflow-x-hidden">
@@ -55,7 +55,7 @@ const ProblemDetails = () => {
         </TabList>
 
         {/* h-[calc(100vh-94px)] */}
-        <TabPanel className="flex px-0 py-4 overflow-y-auto">
+        <TabPanel className="flex px-0 py-4">
           <div className="px-5">
             {/* Problem heading */}
             <div className="w-full">
@@ -88,11 +88,13 @@ const ProblemDetails = () => {
               <div className="text-white text-sm">
                 <p className="mt-3">{problem?.problemDescription}</p>
                 <p className="mt-3">
+
                   You may assume that each input would have{" "}
                   <strong>exactly one solution</strong>, and you may not use the
                   same element twice.
                 </p>
-                <p className="mt-3">You can return the answer in any order.</p>
+                <p className="mt-3 mb-1">You can return the answer in any order.</p>
+                <p>First take input of number of elements in array and then take input of the array and then output the length of longest increasing subsequence as a single integer.</p>
               </div>
 
               {/* Examples */}

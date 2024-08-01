@@ -6,6 +6,7 @@ import Loading from "../Components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/Slices/authSlice";
 import toast from "react-hot-toast";
+// import { FileReader } from 'react';
 
 const Navbar = () => {
   const [scroll, setScroll] = useState(false);
@@ -31,15 +32,15 @@ const Navbar = () => {
     }
   };
 
-  // useEffect(()=>{
-  //   if(userData?.avatar){
-  //     const filer = new fileReader();
+  // useEffect(() => {
+  //   if (typeof window!== 'undefined' && userData?.avatar) {
+  //     const filer = new FileReader();
   //     filer.readAsDataURL(userData?.avatar?.secure_url);
   //     filer.onload = (e) => {
   //       setAvatarUrl(e.target.result);
-  //     }
+  //     };
   //   }
-  // })
+  // }, [userData]);
 
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -117,9 +118,9 @@ const Navbar = () => {
           {isLoggedIn ? (
             <Link to="/logout">
               <button onClick={handleLogout}>
-                {userData?.avatar?.secure_url ? (
+                {userData?.avatar ? (
                   <img
-                    src={avatarUrl}
+                    src={userData?.avatar?.secure_url}
                     alt="image"
                     style={{ width: 30, height: 30, borderRadius: "50%" }}
                   />
