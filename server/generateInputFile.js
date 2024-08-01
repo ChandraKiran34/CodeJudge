@@ -1,5 +1,7 @@
 import fs from 'fs';
 import path from  'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -18,6 +20,4 @@ const generateInputFile = async (input) => {
     return input_filePath;
 };
 
-module.exports = {
-    generateInputFile,
-};
+export default generateInputFile;

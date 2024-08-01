@@ -3,13 +3,14 @@ import dotenv from "dotenv";
 import AppError from "../Utils/AppError.js";
 import cloudinary from "cloudinary";
 import fs from "fs/promises";
-import sendEmail from "../Utils/SendEmail.js";
+import sendEmail from "../Utils/sendEmail.js";
 import crypto from "crypto";
 
 dotenv.config();
 
 const CookieOptions = {
   secure: true,
+  sameSite : "None",
   maxAge: 7 * 24 * 60 * 60, // 7 days
   httpOnly: true,
 };
@@ -88,6 +89,7 @@ const register = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: "User registered succeessfully",
+      token,
       user: newUser,
     });
   } catch (error) {
@@ -117,6 +119,7 @@ const login = async (req, res, next) => {
     res.cookie("token", token, CookieOptions);
     res.status(201).json({
       success: true,
+      token,
       message: "Login successful ",
       user: userAccount,
     });

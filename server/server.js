@@ -9,7 +9,7 @@ cloudinary.v2.config({
   api_secret : process.env.CLOUDINARY_API_SECRET,
   api_key : process.env.CLOUDINARY_API_KEY
 })
-const PORT = process.env.PORT || 5000 
+const PORT = process.env.PORT || 8000 
 app.listen(PORT, async () =>{
   await connectToDB();
   console.log(`App is running on ${PORT}`);

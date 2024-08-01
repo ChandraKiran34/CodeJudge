@@ -47,4 +47,9 @@ const getProblemById = async (req, res) => {
   }
 };
 
+const handleSubmit = () =>{
+  const problemId = req.params;
+  
+}
+
 export { addProblem, allProblems, getProblemById };

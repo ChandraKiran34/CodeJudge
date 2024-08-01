@@ -11,13 +11,13 @@ if (!fs.existsSync(outputPath)) {
   fs.mkdirSync(outputPath, { recursive: true });
 }
 
-const executeCpp = (filePath) => {
+const executeCpp = (filePath, inputPath) => {
   const jobId = path.basename(filePath).split('.')[0]; 
-  const fileName = `${jobId}.exe`;
+  const fileName = `${jobId}.out`;
   const outPath  = path.join(outputPath, fileName);
 
   return new Promise((resolve, reject) => {
-    exec(`g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${fileName}`, (error, stdout, stderr) => {
+    exec(`g++ ${filePath} -o ${outPath} && cd ${outputPath} && ./${fileName} < ${inputPath}`, (error, stdout, stderr) => {
       if (error) {
         reject(error);
       }
@@ -40,6 +40,13 @@ const executeCpp = (filePath) => {
           console.error(`Failed to delete file: ${filePath}`, unlinkErr);
         } else {
           console.log(`Successfully deleted file: ${filePath}`);
+        }
+      });
+      fs.unlink(inputPath, (unlinkErr) => {
+        if (unlinkErr) {
+          console.error(`Failed to delete file: ${inputPath}`, unlinkErr);
+        } else {
+          console.log(`Successfully deleted file: ${inputPath}`);
         }
       });
     });
